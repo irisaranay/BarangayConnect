@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Resident Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="user">
+    <h2>Welcome, {{ user.first_name }} {{ user.last_name }}</h2>
+    <p>Phone: {{ user.phone }}</p>
+    <p>Role: {{ user.role }}</p>
+  </div>
+
+  <ion-button expand="full" color="primary" (click)="syncOffline()" [disabled]="!offlineUsers.length">
+    Sync Offline Users
+  </ion-button>
+
+  <div *ngIf="offlineUsers?.length">
+    <h3>Offline Users Pending Sync:</h3>
+    <ion-list>
+      <ion-item *ngFor="let u of offlineUsers">
+        {{ u.first_name }} {{ u.last_name }} - {{ u.phone }}
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

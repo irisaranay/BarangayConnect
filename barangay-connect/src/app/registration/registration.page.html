@@ -1,0 +1,144 @@
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Registration</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true" class="ion-padding">
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input [(ngModel)]="firstName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Middle Name</ion-label>
+        <ion-input [(ngModel)]="middleName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input [(ngModel)]="lastName"></ion-input>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="floating">Date of Birth</ion-label>
+        <ion-datetime presentation="date" [(ngModel)]="dob"></ion-datetime>
+        <ion-icon slot="end" name="calendar-outline"></ion-icon>
+      </ion-item> -->
+
+    <ion-item>
+    <ion-label position="floating">Date of Birth</ion-label>
+    <ion-datetime
+      presentation="date"
+      [(ngModel)]="dob"
+      placeholder="Select Date"
+      size="cover"
+    ></ion-datetime>
+  </ion-item>
+
+
+
+      <ion-item>
+        <ion-label>Gender</ion-label>
+        <ion-select [(ngModel)]="gender">
+          <ion-select-option value="Male">Male</ion-select-option>
+          <ion-select-option value="Female">Female</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Civil Status</ion-label>
+        <ion-select [(ngModel)]="civilStatus">
+          <ion-select-option value="Single">Single</ion-select-option>
+          <ion-select-option value="Married">Married</ion-select-option>
+          <ion-select-option value="Widowed">Widowed</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="floating">Contact Number</ion-label>
+        <ion-input [(ngModel)]="contact"></ion-input>
+      </ion-item> -->
+
+      <ion-item>
+    <ion-label position="floating">Contact Number (e.g., 09171234567)</ion-label>
+    <ion-input [(ngModel)]="contact" type="tel" maxlength="11"></ion-input>
+  </ion-item>
+
+
+      <!-- <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input [(ngModel)]="address"></ion-input>
+      </ion-item> -->
+
+      <ion-item>
+    <ion-label position="floating">Purok / Zone</ion-label>
+    <ion-input [(ngModel)]="purok"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Barangay</ion-label>
+    <ion-input [(ngModel)]="barangay"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">City / Municipality</ion-label>
+    <ion-input [(ngModel)]="city"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Province</ion-label>
+    <ion-input [(ngModel)]="province"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Postal Code</ion-label>
+    <ion-input [(ngModel)]="postalCode" type="text"></ion-input>  <!-- type="text", not number -->
+  </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" (ionInput)="validatePassword()"></ion-input>
+        <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-note *ngIf="passwordError" color="danger" class="ion-padding-start">
+        Password must be at least 8 characters, include uppercase, lowercase, and special character.
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input [type]="showConfirm ? 'text' : 'password'" [(ngModel)]="confirmPassword"></ion-input>
+        <ion-button fill="clear" slot="end" (click)="toggleConfirmVisibility()">
+          <ion-icon [name]="showConfirm ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-note *ngIf="confirmError" color="danger" class="ion-padding-start">
+        Passwords do not match.
+      </ion-note>
+
+      <ion-button expand="block" (click)="takePhoto()">
+    <ion-icon name="camera-outline" slot="start"></ion-icon>
+    Take Photo
+  </ion-button>
+
+  <ion-thumbnail *ngIf="photo">
+    <img [src]="photo" />
+  </ion-thumbnail>
+
+
+      <ion-button expand="block" color="primary" (click)="register()">Register</ion-button>
+    </ion-list>
+
+    <div class="ion-text-center ion-margin-top">
+    <p>
+      Already have an account?
+    <a (click)="goToLogin()" style="text-decoration: underline;">Log in</a>
+    </p>
+  </div>
+  </ion-content>

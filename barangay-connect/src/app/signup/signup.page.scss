@@ -1,0 +1,64 @@
+.signup-content {
+  --background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.signup-container {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.logo-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Optional: Upload icon row style */
+ion-item.upload-item {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+
+  ion-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  span {
+    font-size: 1rem;
+    color: #007bff;
+    cursor: pointer;
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+  .signup-container {
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .logo-title {
+    font-size: 1.5rem;
+  }
+}
+

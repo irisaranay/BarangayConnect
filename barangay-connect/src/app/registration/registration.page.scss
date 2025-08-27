@@ -1,0 +1,70 @@
+img {
+  border: 2px solid #3880ff;
+  border-radius: 8px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+ion-content {
+  --padding-bottom: 20px;
+
+  a {
+    color: var(--ion-color-primary);
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .ion-text-center {
+    margin-top: 16px;
+  }
+
+  .custom-datetime {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-datetime ion-datetime {
+    flex: 1;
+    font-size: 16px;
+    padding-right: 8px;
+  }
+
+  .calendar-icon {
+    font-size: 20px;
+    color: var(--ion-color-primary);
+    cursor: pointer;
+  }
+
+  .custom-input {
+    cursor: pointer;
+  }
+
+  ion-button.login-button {
+    margin-top: 16px;
+  }
+
+  ion-note {
+    font-size: 13px;
+  }
+
+  /* ✅ New: Style for address group */
+  .address-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .address-group ion-item {
+    margin: 0;
+  }
+
+    ion-item {
+    max-width: 100%;
+  }
+}

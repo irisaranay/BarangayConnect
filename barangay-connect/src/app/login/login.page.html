@@ -1,0 +1,68 @@
+<ion-content class="login-content" fullscreen>
+  <div class="background-overlay"></div>
+
+  <div class="login-wrapper">
+    <div class="login-container adjusted">
+      <div class="logo-circle">
+        <img src="assets/logo.jpg" alt="Logo" />
+      </div>
+
+      <h1 class="logo-title">BARANGAY CONNECT</h1>
+      <p class="subtext">Where request meets results</p>
+      <div class="divider"></div>
+
+      <form (submit)="login()">
+        <ion-item
+          class="custom-input"
+          [ngClass]="{ 'input-focused': activeInput === 'phone' }"
+        >
+          <ion-label position="floating">Phone Number</ion-label>
+          <ion-input
+            [(ngModel)]="phone"
+            name="phone"
+            type="tel"
+            required
+            (focus)="setActive('phone')"
+            (blur)="setActive('')"
+          ></ion-input>
+          <ion-icon name="call-outline" slot="end"></ion-icon>
+        </ion-item>
+
+        <ion-item
+          class="custom-input"
+          [ngClass]="{ 'input-focused': activeInput === 'password' }"
+        >
+          <ion-label position="floating">Password</ion-label>
+          <ion-input
+            [(ngModel)]="password"
+            name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            required
+            (focus)="setActive('password')"
+            (blur)="setActive('')"
+          ></ion-input>
+          <ion-icon
+            slot="end"
+            [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            (click)="togglePasswordVisibility()"
+            style="cursor: pointer"
+          ></ion-icon>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" class="ion-margin-top login-btn">
+          Login
+        </ion-button>
+
+        <div class="ion-text-right ion-margin-top">
+          <ion-text><a (click)="forgotPassword()">Forgot password?</a></ion-text>
+        </div>
+      </form>
+
+      <div class="ion-text-center ion-margin-top">
+          <ion-text>
+            New user? <a routerLink="/registration">Create Account</a>
+          </ion-text>
+        </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,432 @@
+
+<ion-app>
+  <!-- Sidebar -->
+  <ion-menu side="start" menuId="main-menu" content-id="main-content" class="custom-menu">
+    <ion-header>
+      <ion-toolbar color="primary" class="menu-header">
+        <div class="menu-logo">
+          <ion-icon name="business" class="logo-icon"></ion-icon>
+          <div class="logo-text">
+            <div class="app-name">BarangayConnect</div>
+            <div class="app-subtitle">Admin Portal</div>
+          </div>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content class="menu-content">
+      <ion-list class="menu-list">
+        <ion-item button class="menu-item active" lines="none">
+          <ion-icon name="grid" slot="start" class="menu-icon"></ion-icon>
+          <ion-label class="menu-label">Admin Dashboard</ion-label>
+          <div class="active-indicator"></div>
+        </ion-item>
+        
+        <ion-item button class="menu-item" lines="none" (click)="goToAdminRegistration()">
+  <ion-icon name="person-add" slot="start" class="menu-icon"></ion-icon>
+  <ion-label class="menu-label">Registration</ion-label>
+</ion-item>
+
+<ion-item button class="menu-item" lines="none" (click)="goToUserRequests()">
+  <ion-icon name="document-text" slot="start" class="menu-icon"></ion-icon>
+  <ion-label class="menu-label">User Requests</ion-label>
+  <ion-chip slot="end" color="danger" class="notification-chip">
+    <ion-label>12</ion-label>
+  </ion-chip>
+</ion-item>
+
+        
+        <div class="menu-divider"></div>
+        
+        <ion-item button class="menu-item logout-item" lines="none" (click)="logout()">
+  <ion-icon name="log-out" slot="start" class="menu-icon"></ion-icon>
+  <ion-label class="menu-label">Logout</ion-label>
+</ion-item>
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- Main Content -->
+  <ion-router-outlet id="main-content">
+    <ion-header [translucent]="true" class="main-header">
+      <ion-toolbar class="top-toolbar">
+        <!-- Left Section: Menu Button -->
+        <ion-buttons slot="start">
+          <ion-menu-button class="menu-toggle"></ion-menu-button>
+        </ion-buttons>
+        
+        <!-- Center Section: Date, Search, Time -->
+        <div class="header-center">
+          <div class="date-time-section">
+            <div class="current-date">{{ currentDate }}</div>
+<div class="current-time">{{ currentTime }}</div>
+
+          </div>
+          
+          <div class="search-section">
+            <ion-searchbar 
+              placeholder="Search requests, residents..." 
+              class="custom-searchbar"
+              show-clear-button="focus">
+            </ion-searchbar>
+          </div>
+        </div>
+        
+        <!-- Right Section: Notifications -->
+        <ion-buttons slot="end">
+          <ion-button fill="clear" class="notification-button">
+            <ion-icon name="notifications" class="notification-icon"></ion-icon>
+            <ion-badge class="notification-badge">5</ion-badge>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content [fullscreen]="true" class="main-content">
+      <div class="content-wrapper">
+        
+        <!-- Analytics Reports Section -->
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="analytics" class="section-icon"></ion-icon>
+            Analytics Reports
+          </h2>
+          <p class="section-subtitle">Overview of system performance and usage</p>
+        </div>
+        
+        <ion-grid class="analytics-grid">
+          <ion-row>
+            <ion-col size="12" size-lg="8">
+              <ion-card class="chart-card">
+                <ion-card-header>
+                  <ion-card-title class="chart-title">Request Trends</ion-card-title>
+                  <ion-card-subtitle>Monthly request volume over time</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <div class="chart-container">
+                    <canvas id="requestTrendsChart" width="400" height="200"></canvas>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-lg="4">
+              <ion-card class="chart-card">
+                <ion-card-header>
+                  <ion-card-title class="chart-title">Document Types</ion-card-title>
+                  <ion-card-subtitle>Most requested documents</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <div class="chart-container">
+                    <canvas id="documentTypesChart" width="300" height="200"></canvas>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Status Cards Section -->
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="flag" class="section-icon"></ion-icon>
+            Request Status Overview
+          </h2>
+          <p class="section-subtitle">Current status of all document requests</p>
+        </div>
+        
+        <ion-grid class="status-grid">
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="status-card completed-card" button>
+                <ion-card-content>
+                  <div class="status-content">
+                    <div class="status-icon-wrapper completed">
+                      <ion-icon name="checkmark-circle" class="status-icon"></ion-icon>
+                    </div>
+                    <div class="status-info">
+                      <div class="status-number" id="completedCount">1,158</div>
+                      <div class="status-label">Completed</div>
+                      <div class="status-trend positive">
+                        <ion-icon name="trending-up"></ion-icon>
+                        <span>+8% this week</span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="status-card pending-card" button>
+                <ion-card-content>
+                  <div class="status-content">
+                    <div class="status-icon-wrapper pending">
+                      <ion-icon name="time" class="status-icon"></ion-icon>
+                    </div>
+                    <div class="status-info">
+                      <div class="status-number" id="pendingCount">89</div>
+                      <div class="status-label">Pending</div>
+                      <div class="status-trend warning">
+                        <ion-icon name="alert-circle"></ion-icon>
+                        <span>Needs review</span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="status-card pickup-card" button>
+                <ion-card-content>
+                  <div class="status-content">
+                    <div class="status-icon-wrapper pickup">
+                      <ion-icon name="hand-left" class="status-icon"></ion-icon>
+                    </div>
+                    <div class="status-info">
+                      <div class="status-number" id="pickupCount">23</div>
+                      <div class="status-label">Ready for Pickup</div>
+                      <div class="status-trend info">
+                        <ion-icon name="location"></ion-icon>
+                        <span>At barangay hall</span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="status-card processing-card" button>
+                <ion-card-content>
+                  <div class="status-content">
+                    <div class="status-icon-wrapper processing">
+                      <ion-icon name="sync" class="status-icon"></ion-icon>
+                    </div>
+                    <div class="status-info">
+                      <div class="status-number" id="processingCount">45</div>
+                      <div class="status-label">Processing</div>
+                      <div class="status-trend processing">
+                        <ion-icon name="hourglass"></ion-icon>
+                        <span>In progress</span>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Recent Requests Table -->
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="list" class="section-icon"></ion-icon>
+            Recent Requests
+          </h2>
+          <p class="section-subtitle">Latest document requests from residents</p>
+        </div>
+        
+        <ion-card class="table-card">
+          <ion-card-header class="table-header">
+            <div class="table-actions">
+              <ion-button fill="outline" size="small">
+                <ion-icon name="funnel" slot="start"></ion-icon>
+                Filter
+              </ion-button>
+              <ion-button color="success" size="small">
+                <ion-icon name="download" slot="start"></ion-icon>
+                Export
+              </ion-button>
+              <ion-button color="primary" size="small">
+                <ion-icon name="refresh" slot="start"></ion-icon>
+                Refresh
+              </ion-button>
+            </div>
+          </ion-card-header>
+          
+          <ion-card-content class="table-content">
+            <div class="table-wrapper">
+              <table class="requests-table">
+                <thead>
+                  <tr>
+                    <th>Request ID</th>
+                    <th>Resident</th>
+                    <th>Document Type</th>
+                    <th>Date Requested</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-row">
+                    <td class="request-id">REQ-2024-001</td>
+                    <td class="resident-info">
+                      <div class="resident-name">Juan Dela Cruz</div>
+                      <div class="resident-contact">09123456789</div>
+                    </td>
+                    <td class="document-type">Barangay Clearance</td>
+                    <td class="request-date">Jan 15, 2024</td>
+                    <td>
+                      <ion-chip color="success" class="status-chip">
+                        <ion-icon name="checkmark-circle"></ion-icon>
+                        <ion-label>Completed</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td>
+                      <ion-chip color="medium" class="priority-chip">
+                        <ion-label>Normal</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td class="actions-cell">
+                      <ion-button size="small" fill="clear" color="primary">
+                        <ion-icon name="eye"></ion-icon>
+                      </ion-button>
+                      <ion-button size="small" fill="clear" color="success">
+                        <ion-icon name="download"></ion-icon>
+                      </ion-button>
+                    </td>
+                  </tr>
+                  
+                  <tr class="table-row">
+                    <td class="request-id">REQ-2024-002</td>
+                    <td class="resident-info">
+                      <div class="resident-name">Maria Santos</div>
+                      <div class="resident-contact">09987654321</div>
+                    </td>
+                    <td class="document-type">Certificate of Residency</td>
+                    <td class="request-date">Jan 15, 2024</td>
+                    <td>
+                      <ion-chip color="warning" class="status-chip">
+                        <ion-icon name="time"></ion-icon>
+                        <ion-label>Pending</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td>
+                      <ion-chip color="danger" class="priority-chip">
+                        <ion-label>Urgent</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td class="actions-cell">
+                      <ion-button size="small" fill="clear" color="primary">
+                        <ion-icon name="eye"></ion-icon>
+                      </ion-button>
+                      <ion-button size="small" fill="clear" color="success">
+                        <ion-icon name="checkmark"></ion-icon>
+                      </ion-button>
+                      <ion-button size="small" fill="clear" color="danger">
+                        <ion-icon name="close"></ion-icon>
+                      </ion-button>
+                    </td>
+                  </tr>
+                  
+                  <tr class="table-row">
+                    <td class="request-id">REQ-2024-003</td>
+                    <td class="resident-info">
+                      <div class="resident-name">Pedro Garcia</div>
+                      <div class="resident-contact">09555123456</div>
+                    </td>
+                    <td class="document-type">Business Permit</td>
+                    <td class="request-date">Jan 14, 2024</td>
+                    <td>
+                      <ion-chip color="tertiary" class="status-chip">
+                        <ion-icon name="hand-left"></ion-icon>
+                        <ion-label>Ready for Pickup</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td>
+                      <ion-chip color="medium" class="priority-chip">
+                        <ion-label>Normal</ion-label>
+                      </ion-chip>
+                    </td>
+                    <td class="actions-cell">
+                      <ion-button size="small" fill="clear" color="primary">
+                        <ion-icon name="eye"></ion-icon>
+                      </ion-button>
+                      <ion-button size="small" fill="clear" color="tertiary">
+                        <ion-icon name="call"></ion-icon>
+                      </ion-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Quick Actions Panel -->
+        <div class="section-header">
+          <h2 class="section-title">
+            <ion-icon name="flash" class="section-icon"></ion-icon>
+            Quick Actions
+          </h2>
+          <p class="section-subtitle">Frequently used administrative functions</p>
+        </div>
+        
+        <ion-grid class="actions-grid">
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="action-card" button>
+                <ion-card-content>
+                  <div class="action-content">
+                    <ion-icon name="person-add" class="action-icon"></ion-icon>
+                    <div class="action-text">
+                      <div class="action-title">Register Resident</div>
+                      <div class="action-subtitle">Add new resident</div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="action-card" button>
+                <ion-card-content>
+                  <div class="action-content">
+                    <ion-icon name="document-text" class="action-icon"></ion-icon>
+                    <div class="action-text">
+                      <div class="action-title">New Request</div>
+                      <div class="action-subtitle">Create document request</div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="action-card" button>
+                <ion-card-content>
+                  <div class="action-content">
+                    <ion-icon name="checkmark-done" class="action-icon"></ion-icon>
+                    <div class="action-text">
+                      <div class="action-title">Bulk Approve</div>
+                      <div class="action-subtitle">Approve multiple requests</div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-card class="action-card" button>
+                <ion-card-content>
+                  <div class="action-content">
+                    <ion-icon name="notifications" class="action-icon"></ion-icon>
+                    <div class="action-text">
+                      <div class="action-title">Send Notifications</div>
+                      <div class="action-subtitle">Notify residents</div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+      </div>
+    </ion-content>
+  </ion-router-outlet>
+</ion-app>

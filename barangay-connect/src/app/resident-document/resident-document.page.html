@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Barangay Clearance Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="floating">Purpose</ion-label>
+    <ion-input [(ngModel)]="purpose"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" color="primary" (click)="submitRequest()">
+    Submit Request
+  </ion-button>
+
+  <ion-button expand="full" color="secondary" (click)="syncOffline()" *ngIf="offlineRequests.length">
+    Sync Offline Requests ({{offlineRequests.length}})
+  </ion-button>
+
+  <ion-list *ngIf="offlineRequests.length">
+    <ion-item *ngFor="let r of offlineRequests">
+      {{r.purpose}} - {{r.date_requested | date:'short'}}
+    </ion-item>
+  </ion-list>
+</ion-content>

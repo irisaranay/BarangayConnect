@@ -1,0 +1,7 @@
+{
+  "name": "barangay-connect",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

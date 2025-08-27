@@ -1,0 +1,121 @@
+<ion-content class="signup-content" fullscreen>
+  <div class="signup-wrapper">
+    <div class="signup-container">
+      <h1 class="logo-title">Register</h1>
+
+      <form (submit)="register()">
+        <!-- Full Name -->
+        <ion-item>
+          <ion-label position="floating">Full Name</ion-label>
+          <ion-input [(ngModel)]="fullName" name="fullName" required></ion-input>
+        </ion-item>
+
+        <!-- Date of Birth with Calendar Icon Trigger -->
+<ion-item>
+  <ion-label>Date of Birth</ion-label>
+  <ion-button fill="clear" slot="end" (click)="openDobModal()">
+    <ion-icon name="calendar-outline"></ion-icon>
+  </ion-button>
+</ion-item>
+
+<!-- Hidden Modal and Datetime -->
+<ion-modal [isOpen]="isDobModalOpen" (didDismiss)="isDobModalOpen = false">
+  <ng-template>
+    <ion-content>
+      <ion-datetime
+        presentation="date"
+        [(ngModel)]="dob"
+        (ionChange)="isDobModalOpen = false"
+      ></ion-datetime>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+        <!-- Gender -->
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-select [(ngModel)]="gender" name="gender" required>
+            <ion-select-option value="male">Male</ion-select-option>
+            <ion-select-option value="female">Female</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Civil Status -->
+        <ion-item>
+          <ion-label>Civil Status</ion-label>
+          <ion-select [(ngModel)]="civilStatus" name="civilStatus" required>
+            <ion-select-option value="single">Single</ion-select-option>
+            <ion-select-option value="married">Married</ion-select-option>
+            <ion-select-option value="widowed">Widowed</ion-select-option>
+            <ion-select-option value="separated">Separated</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Contact Number -->
+        <ion-item>
+          <ion-label position="floating">Contact Number</ion-label>
+          <ion-input
+            [(ngModel)]="contactNumber"
+            name="contactNumber"
+            required
+            type="tel"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Address -->
+        <ion-item>
+          <ion-label position="floating">Complete Address</ion-label>
+          <ion-input [(ngModel)]="address" name="address" required></ion-input>
+        </ion-item>
+
+        <!-- Password -->
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input
+            [(ngModel)]="password"
+            name="password"
+            required
+            type="password"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Confirm Password -->
+        <ion-item>
+          <ion-label position="floating">Confirm Password</ion-label>
+          <ion-input
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            required
+            type="password"
+          ></ion-input>
+        </ion-item>
+
+       <!-- Upload Photo -->
+<ion-item lines="none">
+  <ion-label>Upload Photo</ion-label>
+  <input
+    type="file"
+    (change)="handleFileInput($event)"
+    accept="image/*"
+    name="photo"
+  />
+</ion-item>
+
+
+        <!-- Register Button -->
+        <ion-button expand="block" class="ion-margin-top" type="submit">
+          Register
+        </ion-button>
+
+        <!-- Already have an account -->
+        <div class="ion-text-center ion-margin-top">
+  <p>
+    Already have an account?
+    <a routerLink="/login" style="color: #3880ff; text-decoration: underline; cursor: pointer;">Login</a>
+  </p>
+</div>
+      </form>
+    </div>
+  </div>
+</ion-content>
