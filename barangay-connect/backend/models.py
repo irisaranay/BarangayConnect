@@ -29,3 +29,17 @@ class User(Base):
 
     # Optional selfie filename
     selfie_filename = Column(String)  # stored file name or path
+
+class RequestForm(Base):
+    __tablename__ = "request_forms"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    document_type = Column(String, nullable=False)
+    purpose = Column(String, nullable=False)
+    copies = Column(Integer, default=1)
+    requirements = Column(String, default="")
+    photo = Column(String, default="")
+    timestamp = Column(String, nullable=False)
+    status = Column(String, default="Pending")
+    notes = Column(String, default="")
