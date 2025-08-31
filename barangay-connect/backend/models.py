@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey   # <-- add ForeignKey
 from database import Base
 
 class User(Base):
