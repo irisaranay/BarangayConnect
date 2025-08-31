@@ -1,37 +1,45 @@
+# sync.py
 import requests
-from database_local import SessionLocalSQLite
-from models_local import UserLocal
+from database_local import get_unsynced_requests, mark_as_synced_local
 
-API_URL = "http://localhost:8000/register-full"  # online FastAPI
+# URL of your online FastAPI backend
+ONLINE_API_URL = "http://16.176.16.134:8000/request"
 
-def sync_users():
-    db = SessionLocalSQLite()
-    try:
-        pending = db.query(UserLocal).filter(UserLocal.sync_status == "pending").all()
-        for user in pending:
-            data = {
-                "phone": user.phone,
-                "password": user.password,  # already hashed
-                "role": user.role,
-                "first_name": user.first_name,
-                "middle_name": user.middle_name,
-                "last_name": user.last_name,
-                "dob": user.dob,
-                "gender": user.gender,
-                "civil_status": user.civil_status,
-                "purok": user.purok,
-                "barangay": user.barangay,
-                "city": user.city,
-                "province": user.province,
-                "postal_code": user.postal_code,
-                "selfie": user.selfie_filename,
-            }
-            r = requests.post(API_URL, json=data)
-            if r.status_code == 200:
-                user.sync_status = "synced"
-                db.commit()
-    finally:
-        db.close()
+def sync_to_online():
+    unsynced_requests = get_unsynced_requests()
+    if not unsynced_requests:
+        return "No unsynced requests found."
 
-if __name__ == "__main__":
-    sync_users()
+    synced_count = 0
+    errors = []
+
+    for req in unsynced_requests:
+        # Prepare payload for online DB
+        payload = {
+            "document_type": req["document_type"],
+            "purpose": req["purpose"],
+            "copies": req["copies"],
+            "requirements": req["requirements"],
+            "photo": req["photo"],
+            "timestamp": req["timestamp"],
+            "status": req.get("status", "Pending"),
+            "notes": req.get("notes", ""),
+            "user_id": req["user_id"]
+        }
+
+        try:
+            response = requests.post(ONLINE_API_URL, json=payload, timeout=10)
+            response.raise_for_status()  # Raise exception if HTTP error
+
+            # Mark as synced locally
+            mark_as_synced_local(req["id"])
+            synced_count += 1
+
+        except Exception as e:
+            errors.append({"id": req["id"], "error": str(e)})
+
+    result = f"Synced {synced_count} requests."
+    if errors:
+        result += f" {len(errors)} failed: {errors}"
+
+    return result
